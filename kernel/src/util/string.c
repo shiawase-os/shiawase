@@ -1,6 +1,8 @@
 #include <string.h>
 
-void *memcpy(void *restrict dest, const void *restrict src, size_t n) {
+#include <util/compiler.h>
+
+__weak void *memcpy(void *restrict dest, const void *restrict src, size_t n) {
     unsigned char *d = dest;
     const unsigned char *s = src;
 
@@ -11,7 +13,7 @@ void *memcpy(void *restrict dest, const void *restrict src, size_t n) {
     return dest;
 }
 
-int strcmp(const char *s1, const char *s2) {
+__weak int strcmp(const char *s1, const char *s2) {
     while (1) {
         int res = ((*s1 == 0) || (*s1 != *s2));
         if  (__builtin_expect((res), 0)) {
