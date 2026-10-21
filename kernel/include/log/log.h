@@ -1,6 +1,4 @@
-#ifndef _LOG_LOG_H
-#define _LOG_LOG_H
-
+#pragma once
 #include <log/level.h>
 
 #define KLOG_BUFFER_SIZE 1024
@@ -11,5 +9,3 @@ void klog(int level, const char *fmt, ...);
 #define kinfo(fmt, ...) klog(LOGLEVEL_INFO, fmt __VA_OPT__(,) __VA_ARGS__)
 #define kwarn(fmt, ...) klog(LOGLEVEL_WARN, fmt __VA_OPT__(,) __VA_ARGS__)
 #define kerr(fmt, ...) klog(LOGLEVEL_ERROR, fmt __VA_OPT__(,) __VA_ARGS__)
-
-#endif // _LOG_LOG_H

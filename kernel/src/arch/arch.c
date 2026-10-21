@@ -4,6 +4,6 @@
 
 __weak int arch_early_init() {
     // do nothing
-    kinfo("default arch_early_init()");
+    kwarn("Specifed architecture didn't provide an arch_early_init()");
     return 0;
 }

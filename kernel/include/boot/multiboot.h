@@ -1,6 +1,4 @@
-#ifndef _MULTIBOOT_H
-#define _MULTIBOOT_H
-
+#pragma once
 #include <stdint.h>
 
 // passed by the bootloader in EAX
@@ -139,5 +137,3 @@ struct mb1_mmap_entry {
 #define MB1_MMAP_TYPE_ACPI_RECLAIMABLE  3
 #define MB1_MMAP_TYPE_ACPI_NVS          4
 #define MB1_MMAP_TYPE_FAULTY            5
-
-#endif // _MULTIBOOT_H

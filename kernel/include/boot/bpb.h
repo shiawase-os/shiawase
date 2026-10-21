@@ -1,9 +1,7 @@
 // despite popular belief this is actually not a header for the Bundeszentrale für Politische Bildung
 // but rather for the boot parameter block, which is a standardized way of passing boot info the kmain
 // no matter the boot protocol
-#ifndef _BOOT_BPB_H
-#define _BOOT_BPB_H
-
+#pragma once
 #include <stdint.h>
 
 // magic
@@ -58,5 +56,3 @@ struct boot_parameter_block {
     uint64_t module_count;
     struct bpb_module *modules;
 };
-
-#endif // _BOOT_BPB_H

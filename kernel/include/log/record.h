@@ -1,5 +1,4 @@
-#ifndef _LOG_RECORD
-#define _LOG_RECORD
+#pragma once
 
 #include <stdint.h>
 
@@ -10,5 +9,3 @@ struct log_record {
     uint32_t cpuid;
     char *message;
 };
-
-#endif // _LOG_RECORD
