@@ -104,9 +104,9 @@ void _cmain(uint32_t magic, uintptr_t boot_info_phys) {
         bpb->protocol = bpb_proto_string;
         bpb->loader = (void *)(uintptr_t)bi.boot_loader_name;
         bpb->cmdline = (void *)(uintptr_t)bi.cmdline_address;
-        bpb->hhdm_offset = 0xffff000000000000; // guh, i dont like this but it is how it is
+        bpb->hhdm_offset = 0xffff000000000000; // this kinda makes me want to shoot myself but thats ok
         bpb->fb_count = framebuffer_count;
-        bpb->fbs = bpb_framebuffer_area; // i hope this works
+        bpb->fbs = bpb_framebuffer_area;
         bpb->mmap_entry_count = memmap_count;
         bpb->mmap_entries = bpb_memmap_area;
         bpb->module_count = module_count;

@@ -11,5 +11,6 @@ int arch_early_init() {
     __amd64_idt_reload();
 
     asm ("int $0x3");
+    asm ("int $0x3");
     return 0;
 }

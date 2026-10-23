@@ -54,7 +54,7 @@ void __amd64_gdt_reload() {
 		".reload:"
 	: : : "ax");
 
-    kinfo("[OK] Initialized amd64 GDT at 0x%.16llx\n", gdt);
+    kinfo("[OK] Initialized AMD64 GDT at 0x%.16llx\n", gdt);
 }
 
 void __amd64_get_set_ldt(void *base, uint64_t limit) {
