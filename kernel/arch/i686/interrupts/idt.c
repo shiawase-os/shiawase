@@ -1,6 +1,6 @@
-#include "log/log.h"
 #include "mem/gdt.h"
 #include <interrupts/idt.h>
+#include <cpu/local.h>
 #include <stddef.h>
 
 void __i686_idt_entry_set_handler(struct __i686_idt_entry *entry, uintptr_t address) {
@@ -8,12 +8,9 @@ void __i686_idt_entry_set_handler(struct __i686_idt_entry *entry, uintptr_t addr
     entry->offset_high = (address >> 16) & 0xffff;
 }
 
-// todo: cpu local struct
-static struct __i686_idt_entry idt[256];
-
 void __i686_idt_setup() {
     for (size_t i = 0; i < 256; ++i) {
-        struct __i686_idt_entry *entry = &idt[i];
+        struct __i686_idt_entry *entry = &CPU_LOCAL_ARRAY(idt)[i];
 
         entry->segment_selector = KERNEL_CODE_SELECTOR;
         entry->reserved0 = 0;
@@ -28,11 +25,9 @@ void __i686_idt_setup() {
 
  void __i686_idt_reload() {
      struct __i686_idtr idtr = {
-         .size = sizeof(idt) - 1,
-        .offset = (uintptr_t)idt,
+         .size = sizeof(struct __i686_idt_entry) * 256 - 1,
+        .offset = (uintptr_t)CPU_LOCAL_ARRAY(idt),
      };
 
      __i686_load_idt(&idtr);
-
-     kinfo("[OK] i686 IDT loaded at 0x%.8lx\n", idt);
  }
