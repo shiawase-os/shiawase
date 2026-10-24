@@ -1,4 +1,4 @@
-#include "log/log.h"
+#include "cpu/local.h"
 #include "mem/gdt.h"
 #include <interrupts/idt.h>
 #include <stddef.h>
@@ -9,12 +9,9 @@ void __amd64_idt_entry_set_handler(struct __amd64_idt_entry *entry, uintptr_t ad
     entry->offset_high = (address >> 32) & 0xffffffff;
 }
 
-// todo: cpu local structure
-static struct __amd64_idt_entry idt[256];
-
 void __amd64_idt_setup() {
     for (size_t i = 0; i < 256; ++i) {
-        struct __amd64_idt_entry *entry = &idt[i];
+        struct __amd64_idt_entry *entry = &CPU_LOCAL_ARRAY(idt)[i];
 
         entry->segment_selector = KERNEL_CODE_SELECTOR;
         entry->ist = 0;
@@ -31,11 +28,9 @@ void __amd64_idt_setup() {
 
 void __amd64_idt_reload() {
     struct __amd64_idtr idtr = {
-        .size = sizeof(idt) - 1,
-        .offset = (uintptr_t)idt,
+        .size = sizeof(struct __amd64_idt_entry) * 256 - 1,
+        .offset = (uintptr_t)CPU_LOCAL_ARRAY(idt),
     };
 
     __amd64_load_idt(&idtr);
-
-    kinfo("[OK] AMD64 IDT loaded at 0x%.16llx\n", idt);
 }

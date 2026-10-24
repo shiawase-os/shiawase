@@ -1,8 +1,8 @@
-#include "log/log.h"
 #include "util/compiler.h"
 #include <mem/gdt.h>
 #include <stdint.h>
 #include <string.h>
+#include "cpu/local.h"
 
 static const uint64_t __amd64_gdt_template[9] = {
     0x0, // NULL 0x0
@@ -21,12 +21,8 @@ struct __amd64_gdtr {
     uint64_t address;
 } __packed;
 
-// todo: cpu local structure
-static uint64_t __amd64_current_gdt[9] = { 0 };
-
 void __amd64_gdt_reload() {
-    uint64_t *gdt = __amd64_current_gdt;
-
+    uint64_t *gdt = CPU_LOCAL_ARRAY(gdt);
     memcpy(gdt, __amd64_gdt_template, sizeof(__amd64_gdt_template));
 
     // todo: tss stuff
@@ -53,14 +49,12 @@ void __amd64_gdt_reload() {
 		"retfq;"
 		".reload:"
 	: : : "ax");
-
-    kinfo("[OK] Initialized AMD64 GDT at 0x%.16llx\n", gdt);
 }
 
 void __amd64_get_set_ldt(void *base, uint64_t limit) {
     (void)limit;
 
-    uint64_t *gdt = __amd64_current_gdt;
+    uint64_t *gdt = CPU_LOCAL_ARRAY(gdt);
 
     if (base == NULL) {
         gdt[7] = 0;
